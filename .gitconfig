@@ -1,0 +1,34 @@
+[credential]
+	helper = manager
+[user]
+	name = Emile Bergeron
+[user]
+	email = emile.bergeron@solutionstlm.com
+[merge]
+	tool = kdiff3
+[diff]
+	guitool = kdiff3
+[core]
+	autocrlf = false
+	excludesfile = ~/.gitignore_global
+	eol = lf
+[push]
+	default = simple
+[alias]
+	s = status
+	cam = commit -am
+    loc = !git ls-files | xargs cat | wc -l
+	dlc = diff --cached HEAD^
+	f = !git ls-files | grep -i
+	grep = grep -Ii
+	l = log --graph --abbrev-commit --decorate --all --date=short --date-order --format=format:'%C(yellow)%h%C(reset) %C(bold blue)%ad%C(reset)%C(auto)%d%C(reset) %C(bold white)%s%C(reset)%C(magenta) - %an%C(reset)'
+
+	
+	# list aliases
+	la = !git config -l | grep alias | cut -c 7-
+	
+	# assume-unchanged shortcut
+	hidden = !git ls-files -v | grep "^[[:lower:]]"
+	hide = update-index --assume-unchanged
+	unhide = update-index --no-assume-unchanged
+	
