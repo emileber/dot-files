@@ -22,7 +22,8 @@
 	f = !git ls-files | grep -i
 	grep = grep -Ii
 	l = log --graph --abbrev-commit --decorate --all --date=short --date-order --format=format:'%C(yellow)%h%C(reset) %C(bold blue)%ad%C(reset)%C(auto)%d%C(reset) %C(bold white)%s%C(reset)%C(magenta) - %an%C(reset)'
-
+	bring = fetch origin
+	stat = quick-stats
 
 	# list aliases
 	la = !git config -l | grep alias | cut -c 7-
