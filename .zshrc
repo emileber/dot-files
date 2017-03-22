@@ -4,7 +4,7 @@
 POWERLEVEL9K_MODE='awesome-patched'
 
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/ebergeron/.oh-my-zsh
+export ZSH=$HOME/.oh-my-zsh
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -122,12 +122,12 @@ alias flushdnscache='sudo discoveryutil mdnsflushcache;sudo discoveryutil udnsfl
 alias finderrestart="sudo killall Finder; open /System/Library/CoreServices/Finder.app"
 alias restartfinder=finderrestart
 
-
-# Syntax highlighting
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
 # php-version manager
-source $(brew --prefix php-version)/php-version.sh
+type brew >/dev/null 2>&1 && source $(brew --prefix php-version)/php-version.sh
 
 # rbenv
 eval "$(rbenv init -)"
+
+# MUST BE THE LAST PLUGIN SOURCES
+# Syntax highlighting
+source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
