@@ -6,6 +6,8 @@ POWERLEVEL9K_MODE='awesome-patched'
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 
+ZSH_CUSTOM=$ZSH/custom
+
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
@@ -54,7 +56,7 @@ ZSH_THEME="powerlevel9k/powerlevel9k"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-# plugins=(git)
+plugins=(git git-flow bower zsh-syntax-highlighting composer laravel5)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -97,6 +99,8 @@ POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs time)
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+[ -f .bash_aliases ] && source .bash_aliases
+
 alias gs='git status $*'
 alias gl='git l $*'
 alias fhere="find . -name "
@@ -127,7 +131,3 @@ type brew >/dev/null 2>&1 && source $(brew --prefix php-version)/php-version.sh
 
 # rbenv
 eval "$(rbenv init -)"
-
-# MUST BE THE LAST PLUGIN SOURCES
-# Syntax highlighting
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
