@@ -17,6 +17,7 @@
 [alias]
 	s = status
 	cam = commit -am
+	squash = reset --soft
 	loc = !git ls-files | xargs cat | wc -l
 	dlc = diff --cached HEAD^
 	f = !git ls-files | grep -i
