@@ -17,8 +17,8 @@
 [alias]
 	s = status
 	cam = commit -am
-	squash = "!f() { base=${1:-2}; git reset --soft $base && git commit --edit -m \"$(git log --format=%B --reverse HEAD..HEAD@{1})\"; }; f"
-	fixup = "!f() { base=${1:-2}; git reset --soft $base && git commit -C HEAD@{1}; }; f"
+	squash = "!f() { base=${1:-2}; git reset --soft $base~1 && git commit --edit -m \"$(git log --format=%B --reverse HEAD..HEAD@{1})\"; }; f"
+	fixup = "!f() { base=${1:-2}; git reset --soft $base~1 && git commit -C $base; }; f"
 	loc = !git ls-files | xargs cat | wc -l
 	dlc = diff --cached HEAD^
 	f = !git ls-files | grep -i
