@@ -37,3 +37,4 @@
 	hidden = !git ls-files -v | grep "^[[:lower:]]"
 	hide = update-index --assume-unchanged
 	unhide = update-index --no-assume-unchanged
+	quick-stats = ! /usr/local/bin/git-quick-stats
