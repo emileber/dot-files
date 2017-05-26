@@ -3,7 +3,7 @@
 [user]
 	name = Emile Bergeron
 [user]
-	email = emile.bergeron@solutionstlm.com
+	email = ber.emile@prismalstudio.com
 [merge]
 	tool = kdiff3
 [diff]
@@ -15,20 +15,30 @@
 [push]
 	default = simple
 [alias]
+	##
 	# Viewing shortcuts
-	s = status
+	#
+	me = config user.name
+	s = status -sb
 	loc = !git ls-files | xargs cat | wc -l
 	dlc = diff --cached HEAD^
 	f = !git ls-files | grep -i
 	grep = grep -Ii
 	l = log --graph --abbrev-commit --decorate --all --date=short --date-order --format=format:'%C(yellow)%h%C(reset) %C(bold blue)%ad%C(reset)%C(auto)%d%C(reset) %C(bold white)%s%C(reset)%C(magenta) - %an%C(reset)'
+	quick-stats = ! /usr/local/bin/git-quick-stats
 	stat = quick-stats
+	rank = shortlog -sn --no-merges
+	history = log -u # list commits related to a file
 
 	# Dangerous commands
 	bring = fetch origin
 	cam = commit -am
+	publish = push -u origin
+	unpublish = push origin :
 	squash = "!f() { base=${1:-2}; git reset --soft $base~1 && git commit --edit -m \"$(git log --format=%B --reverse HEAD..HEAD@{1})\"; }; f"
 	fixup = "!f() { base=${1:-2}; git reset --soft $base~1 && git commit -C $base; }; f"
+	cleanup = !git fsck && git remote prune origin && git gc
+	undo = reset --soft HEAD^
 
 	# list aliases
 	la = !git config -l | grep alias | cut -c 7-
@@ -37,4 +47,5 @@
 	hidden = !git ls-files -v | grep "^[[:lower:]]"
 	hide = update-index --assume-unchanged
 	unhide = update-index --no-assume-unchanged
-	quick-stats = ! /usr/local/bin/git-quick-stats
+	unhideall = "!git assumed | xargs git update-index --no-assume-unchanged"
+	hideall = "!git st -s | awk {'print $2'} | xargs git assume"
