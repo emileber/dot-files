@@ -2,8 +2,7 @@
 	helper = manager
 [user]
 	name = Emile Bergeron
-[user]
-	email = ber.emile@prismalstudio.com
+	useConfigOnly = true
 [merge]
 	tool = kdiff3
 [diff]
@@ -18,7 +17,7 @@
 	##
 	# Viewing shortcuts
 	#
-	me = config user.name
+	me = !echo $(git config user.name) $(git config user.email)
 	s = status -sb
 	loc = !git ls-files | xargs cat | wc -l
 	dlc = diff --cached HEAD^
