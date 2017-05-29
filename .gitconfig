@@ -48,3 +48,6 @@
 	unhide = update-index --no-assume-unchanged
 	unhideall = "!git assumed | xargs git update-index --no-assume-unchanged"
 	hideall = "!git st -s | awk {'print $2'} | xargs git assume"
+
+[include]
+	path = ~/.gitconfig.local
