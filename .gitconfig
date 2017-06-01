@@ -29,6 +29,10 @@
 	rank = shortlog -sn --no-merges
 	history = log -u # list commits related to a file
 
+	# flow commands
+	feat = flow feature start
+	hotfix = flow hotfix start
+
 	# Dangerous commands
 	bring = fetch origin
 	cam = commit -am
