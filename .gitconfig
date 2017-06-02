@@ -3,6 +3,8 @@
 [user]
 	name = Emile Bergeron
 	useConfigOnly = true
+[commit]
+	gpgsign = true
 [merge]
 	tool = kdiff3
 [diff]
