@@ -5,6 +5,10 @@
 	useConfigOnly = true
 [commit]
 	gpgsign = true
+[tag]
+	forceSignAnnotated = true
+[gpg]
+	program = gpg2
 [merge]
 	tool = kdiff3
 [diff]

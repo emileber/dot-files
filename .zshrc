@@ -131,3 +131,5 @@ type brew >/dev/null 2>&1 && source $(brew --prefix php-version)/php-version.sh
 
 # rbenv
 eval "$(rbenv init -)"
+
+export GPG_TTY=$(tty)
