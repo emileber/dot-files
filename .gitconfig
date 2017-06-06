@@ -20,9 +20,10 @@
 [push]
 	default = simple
 [alias]
-	##
-	# Viewing shortcuts
-	#
+	#####################
+	# Viewing shortcuts #
+	#####################
+
 	me = !echo $(git config user.name) $(git config user.email)
 	s = status -sb
 	loc = !git ls-files | xargs cat | wc -l
@@ -34,23 +35,35 @@
 	stat = quick-stats
 	rank = shortlog -sn --no-merges
 	history = log -u # list commits related to a file
+	# Get the current branch name (not so useful in itself, but used in
+	# other aliases)
+	branch-name = rev-parse --abbrev-ref HEAD
+	# list aliases
+	la = !git config -l | grep alias | cut -c 7-
 
-	# flow commands
+	#################
+	# flow commands #
+	#################
+
 	feat = flow feature start
 	hotfix = flow hotfix start
 
-	# Dangerous commands
+	######################
+	# Dangerous commands #
+	######################
+
+	# Unstage any files that have been added to the staging area
+	unstage = reset HEAD
+	undo = reset --soft HEAD^
 	bring = fetch origin
 	cam = commit -am
-	publish = push -u origin
-	unpublish = push origin :
+	pub = !git push -u origin $(git branch-name)
+	unpub = !git push origin :$(git branch-name)
 	squash = "!f() { base=${1:-2}; git reset --soft $base~1 && git commit --edit -m \"$(git log --format=%B --reverse HEAD..HEAD@{1})\"; }; f"
 	fixup = "!f() { base=${1:-2}; git reset --soft $base~1 && git commit -C $base; }; f"
 	cleanup = !git fsck && git remote prune origin && git gc
-	undo = reset --soft HEAD^
-
-	# list aliases
-	la = !git config -l | grep alias | cut -c 7-
+	# Save all work into a commit "FIRE"
+	fire = "!git add -A && git commit -m 'FIRE FIRE FIRE' && git push origin fire-branch"
 
 	# assume-unchanged shortcut
 	hidden = !git ls-files -v | grep "^[[:lower:]]"
