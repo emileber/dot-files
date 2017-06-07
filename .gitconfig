@@ -9,6 +9,8 @@
 	forceSignAnnotated = true
 [gpg]
 	program = gpg2
+[log]
+	date = local
 [merge]
 	tool = kdiff3
 [diff]
