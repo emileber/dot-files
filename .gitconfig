@@ -37,6 +37,7 @@
 	stat = quick-stats
 	rank = shortlog -sn --no-merges
 	history = log -u # list commits related to a file
+	gone = !git branch -vv | grep ': gone]'
 	# Get the current branch name (not so useful in itself, but used in
 	# other aliases)
 	branch-name = rev-parse --abbrev-ref HEAD
