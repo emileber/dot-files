@@ -11,10 +11,8 @@
 	program = gpg2
 [log]
 	date = local
-[merge]
-	tool = kdiff3
 [diff]
-	guitool = kdiff3
+	mnemonicprefix = true # Index, Work tree, Commit, Object instead of a and b.
 [core]
 	autocrlf = false
 	excludesfile = ~/.gitignore_global
