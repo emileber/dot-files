@@ -56,7 +56,8 @@
 	# Unstage any files that have been added to the staging area
 	unstage = reset HEAD
 	undo = reset --soft HEAD^
-	bring = fetch origin
+	bring = fetch origin # 'git bring remote-branch:local-branch' fetch a branch into a local branch.
+	up = !git fetch origin $1:$1 # same as e.g. 'git bring develop:develop'
 	cam = commit -am
 	pub = !git push -u origin $(git branch-name)
 	unpub = !git push origin :$(git branch-name)
