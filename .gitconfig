@@ -59,6 +59,7 @@
 	bring = fetch origin # 'git bring remote-branch:local-branch' fetch a branch into a local branch.
 	ff = !git fetch origin $1:$1 # same as e.g. 'git bring develop:develop'
 	cam = commit -am
+	cm = commit -m
 	pub = !git push -u origin $(git branch-name)
 	unpub = !git push origin :$(git branch-name)
 	squash = "!f() { base=${1:-2}; git reset --soft $base~1 && git commit --edit -m \"$(git log --format=%B --reverse HEAD..HEAD@{1})\"; }; f"
@@ -69,12 +70,12 @@
 	# Save all work into a commit "FIRE"
 	fire = "!git add -A && git commit -m 'FIRE FIRE FIRE' && git push origin fire-branch"
 
-	# assume-unchanged shortcut
+	# assume-unchanged shortcuts
 	hidden = !git ls-files -v | grep "^[[:lower:]]"
 	hide = update-index --assume-unchanged
 	unhide = update-index --no-assume-unchanged
-	unhideall = "!git assumed | xargs git update-index --no-assume-unchanged"
-	hideall = "!git st -s | awk {'print $2'} | xargs git assume"
+	unhideall = "!git hidden | awk {'print $2'} | xargs git unhide"
+	hideall = "!git status -s | awk {'print $2'} | xargs git hide"
 
 [include]
 	path = ~/.gitconfig.local
