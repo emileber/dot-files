@@ -24,7 +24,7 @@
 	# Viewing shortcuts #
 	#####################
 
-	me = !echo $(git config user.name) $(git config user.email)
+	me = !echo $(git config user.name) $(git config user.email) $(git config user.signingkey)
 	s = status -sb
 	loc = !git ls-files | xargs cat | wc -l
 	dlc = diff --cached HEAD^
