@@ -1,7 +1,8 @@
 
-#ignore thumbnails created by windows
+# Thumbnails created by windows
 Thumbs.db
-#Ignore files build by Visual Studio
+
+# Files build by Visual Studio
 *.obj
 *.exe
 *.pdb
@@ -22,3 +23,19 @@ Thumbs.db
 *.dll
 *.lib
 *.sbr
+
+# Mac specific files
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+selenium-debug.log*
+
+# Other generated artefacts
+.sass-cache
