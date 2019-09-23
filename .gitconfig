@@ -1,79 +1,82 @@
 [credential]
-	helper = manager
+  helper = manager
 [user]
-	name = Emile Bergeron
-	useConfigOnly = true
+  name = Emile Bergeron
+  useConfigOnly = true
 [tag]
-	forceSignAnnotated = true
+  forceSignAnnotated = true
 [gpg]
-	program = gpg2
+  program = gpg2
 [log]
-	date = local
+  date = local
 [diff]
-	mnemonicprefix = true # Index, Work tree, Commit, Object instead of a and b.
+  mnemonicprefix = true # Index, Work tree, Commit, Object instead of a and b.
 [core]
-	autocrlf = false
-	excludesfile = ~/.gitignore_global
-	eol = lf
+  autocrlf = false
+  excludesfile = ~/.gitignore_global
+  eol = lf
 [push]
-	default = simple
+  default = simple
 [alias]
-	#####################
-	# Viewing shortcuts #
-	#####################
+  #####################
+  # Viewing shortcuts #
+  #####################
 
-	me = !echo $(git config user.name) $(git config user.email) $(git config user.signingkey)
-	s = status -sb
-	loc = !git ls-files | xargs cat | wc -l
-	dlc = diff --cached HEAD^
-	f = !git ls-files | grep -i
-	grep = grep -Ii
-	l = log --graph --abbrev-commit --decorate --all --date=short --date-order --format=format:'%C(yellow)%h%C(reset) %C(bold blue)%ad%C(reset)%C(auto)%d%C(reset) %C(bold white)%s%C(reset)%C(magenta) - %an%C(reset)'
-	quick-stats = ! /usr/local/bin/git-quick-stats
-	stat = quick-stats
-	rank = shortlog -sn --no-merges
-	history = log -u # list commits related to a file
-	gone = !git branch -vv | grep ': gone]'
-	# Get the current branch name (not so useful in itself, but used in
-	# other aliases)
-	branch-name = rev-parse --abbrev-ref HEAD
-	# list aliases
-	la = !git config -l | grep alias | cut -c 7-
+  me = !echo $(git config user.name) $(git config user.email) $(git config user.signingkey)
+  s = status -sb
+  loc = !git ls-files | xargs cat | wc -l
+  dlc = diff --cached HEAD^
+  f = !git ls-files | grep -i
+  grep = grep -Ii
+  l = log --graph --abbrev-commit --decorate --all --date=short --format=format:'%C(yellow)%h%C(reset) %C(bold blue)%ad%C(reset)%C(auto)%d%C(reset) %C(bold white)%s%C(reset)%C(magenta) - %an%C(reset)'
+  ll = !git l --simplify-by-decoration
+  quick-stats = ! /usr/local/bin/git-quick-stats
+  stat = quick-stats
+  rank = shortlog -sn --no-merges
+  history = log -u # list commits related to a file
+  gone = !git branch -vv | grep ': gone]'
+  # Get the current branch name (not so useful in itself, but used in
+  # other aliases)
+  branch-name = rev-parse --abbrev-ref HEAD
+  # list aliases
+  la = !git config -l | grep alias | cut -c 7-
+  # Find common ancertor with another branch, the fork point.
+  fp = "!f() { git log -1 $(git merge-base --fork-point $1); }; f"
 
-	#################
-	# flow commands #
-	#################
+  #################
+  # flow commands #
+  #################
 
-	feat = flow feature start
-	hotfix = flow hotfix start
+  feat = flow feature start
+  hotfix = flow hotfix start
 
-	######################
-	# Dangerous commands #
-	######################
+  ######################
+  # Dangerous commands #
+  ######################
 
-	# Unstage any files that have been added to the staging area
-	unstage = reset HEAD
-	undo = reset --soft HEAD^
-	bring = fetch origin # 'git bring remote-branch:local-branch' fetch a branch into a local branch.
-	ff = !git fetch origin $1:$1 # same as e.g. 'git bring develop:develop'
-	cam = commit -am
-	cm = commit -m
-	pub = !git push -u origin $(git branch-name)
-	unpub = !git push origin :$(git branch-name)
-	squash = "!f() { base=${1:-2}; git reset --soft $base~1 && git commit --edit -m \"$(git log --format=%B --reverse HEAD..HEAD@{1})\"; }; f"
-	fixup = "!f() { base=${1:-2}; git reset --soft $base~1 && git commit -C $base; }; f"
-	cleanup = !git fsck && git remote prune origin && git gc
-	hardreset = !git reset --hard && git clean -df # removes only untracked files
-	pristine = !git reset --hard && git clean -dfx # dangerous, like a new clone, nothing untracked is kept.
-	# Save all work into a commit "FIRE"
-	fire = "!git add -A && git commit -m 'FIRE FIRE FIRE' && git push origin fire-branch"
+  # Unstage any files that have been added to the staging area
+  unstage = reset HEAD
+  undo = reset --soft HEAD^
+  bring = fetch origin # 'git bring remote-branch:local-branch' fetch a branch into a local branch.
+  ff = "!f() { git fetch origin $1:$1; }; f" # same as e.g. 'git bring develop:develop'
+  cam = commit -am
+  cm = commit -m
+  pub = !git push -u origin $(git branch-name)
+  unpub = !git push origin :$(git branch-name)
+  squash = "!f() { base=${1:-2}; git reset --soft $base~1 && git commit --edit -m \"$(git log --format=%B --reverse HEAD..HEAD@{1})\"; }; f"
+  fixup = "!f() { base=${1:-2}; git reset --soft $base~1 && git commit -C $base; }; f"
+  cleanup = !git fsck && git remote prune origin && git gc
+  hardreset = !git reset --hard && git clean -df # removes only untracked files
+  pristine = !git reset --hard && git clean -dfx # dangerous, like a new clone, nothing untracked is kept.
+  # Save all work into a commit "FIRE"
+  fire = "!git add -A && git commit -m 'FIRE FIRE FIRE' && git push origin fire-branch"
 
-	# assume-unchanged shortcuts
-	hidden = !git ls-files -v | grep "^[[:lower:]]"
-	hide = update-index --assume-unchanged
-	unhide = update-index --no-assume-unchanged
-	unhideall = "!git hidden | awk {'print $2'} | xargs git unhide"
-	hideall = "!git status -s | awk {'print $2'} | xargs git hide"
+  # assume-unchanged shortcuts
+  hidden = !git ls-files -v | grep "^[[:lower:]]"
+  hide = update-index --assume-unchanged
+  unhide = update-index --no-assume-unchanged
+  unhideall = "!git hidden | awk {'print $2'} | xargs git unhide"
+  hideall = "!git status -s | awk {'print $2'} | xargs git hide"
 
 [include]
-	path = ~/.gitconfig.local
+  path = ~/.gitconfig.local

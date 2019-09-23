@@ -15,4 +15,4 @@ alias mkdir="mkdir -pv"    # Create any parent directory
 
 alias histg="history | grep"
 
-export EDITOR=vim
+PROMPT_COMMAND='history -a'
