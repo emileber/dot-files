@@ -5,7 +5,6 @@ asvetliakov.snapshot-tools
 christian-kohler.npm-intellisense
 dbaeumer.vscode-eslint
 donjayamanne.githistory
-dracula-theme.theme-dracula
 dzannotti.vscode-babel-coloring
 eamodio.gitlens
 eg2.vscode-npm-script
@@ -34,6 +33,5 @@ shinnn.stylelint
 sidneys1.gitconfig
 uyiosa-enabulele.reopenclosedtab
 VisualStudioExptTeam.vscodeintellicode
-whizkydee.material-palenight-theme
 wix.vscode-import-cost
 zhuangtongfa.Material-theme
