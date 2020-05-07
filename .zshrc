@@ -100,31 +100,7 @@ POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs time)
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 [ -f .bash_aliases ] && source .bash_aliases
-
-alias gs='git status $*'
-alias gl='git l $*'
-alias fhere="find . -name "
-
-alias ps="ps aux"
-
-alias mkdir="mkdir -pv"    # Create any parent directory
-
-alias histg="history | grep"
-
-
-alias pbdecrypt='pbpaste | keybase decrypt | pbcopy'
-pbencrypt(){
-    pbpaste | keybase encrypt $@ | pbcopy
-}
-
-## Osx Tweaks
-### OSx Hidden Files
-alias showHiddenFiles="defaults write com.apple.finder AppleShowAllFiles -boolean true; killall Finder"
-alias hideHiddenFiles="defaults delete com.apple.finder AppleShowAllFiles; killall Finder"
-### Flush dns cache on Yosemite
-alias flushdnscache='sudo discoveryutil mdnsflushcache;sudo discoveryutil udnsflushcaches; echo "Cache flushed"'
-alias finderrestart="sudo killall Finder; open /System/Library/CoreServices/Finder.app"
-alias restartfinder=finderrestart
+[ -f .macos_aliases ] && source .macos_aliases
 
 # php-version manager
 type brew >/dev/null 2>&1 && source $(brew --prefix php-version)/php-version.sh
