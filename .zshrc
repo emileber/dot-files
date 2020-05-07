@@ -99,8 +99,8 @@ POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs time)
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-[ -f .bash_aliases ] && source .bash_aliases
-[ -f .macos_aliases ] && source .macos_aliases
+[ -f "$HOME/.bash_aliases" ] && source $HOME/.bash_aliases
+[ -f "$HOME/.macos_aliases" ] && source $HOME/.macos_aliases
 
 # php-version manager
 type brew >/dev/null 2>&1 && source $(brew --prefix php-version)/php-version.sh
