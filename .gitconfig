@@ -65,7 +65,8 @@
   unpub = !git push origin :$(git branch-name)
   squash = "!f() { base=${1:-2}; git reset --soft $base~1 && git commit --edit -m \"$(git log --format=%B --reverse HEAD..HEAD@{1})\"; }; f"
   fixup = "!f() { base=${1:-2}; git reset --soft $base~1 && git commit -C $base; }; f"
-  cleanup = !git fsck && git remote prune origin && git gc
+  cleanup = !git fsck && git fetch -p && git gc
+  kill = !git gone | awk '{print $1}' | xargs git branch -D
   hardreset = !git reset --hard && git clean -df # removes only untracked files
   pristine = !git reset --hard && git clean -dfx # dangerous, like a new clone, nothing untracked is kept.
   # Save all work into a commit "FIRE"
