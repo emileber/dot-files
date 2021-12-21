@@ -16,11 +16,11 @@ echo -e "ZSH_CUSTOM path: $ZSH_CUSTOM"
 ZSH_THEMES=${ZSH_CUSTOM}/themes
 ZSH_PLUGINS=${ZSH_CUSTOM}/plugins
 
-[ ! -d "$ZSH_THEMES/powerlevel9k" ] && git clone https://github.com/bhilburn/powerlevel9k.git ${ZSH_THEMES}/powerlevel9k
+[ ! -d "$ZSH_THEMES/powerlevel9k" ] && git clone https://github.com/Powerlevel9k/powerlevel9k.git ${ZSH_THEMES}/powerlevel9k
 
 # installs zsh-syntax-highlighting plugin to a common directory
-[ ! -d "$ZSH_PLUGINS/zsh-syntax-highlighting" ] && git clone git@github.com:zsh-users/zsh-syntax-highlighting.git ${ZSH_PLUGINS}/zsh-syntax-highlighting
-[ ! -d "$ZSH_PLUGINS/zsh-nvm" ] && git clone https://github.com/lukechilds/zsh-nvm ${ZSH_PLUGINS}/zsh-nvm
+[ ! -d "$ZSH_PLUGINS/zsh-syntax-highlighting" ] && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_PLUGINS}/zsh-syntax-highlighting
+[ ! -d "$ZSH_PLUGINS/zsh-nvm" ] && git clone https://github.com/lukechilds/zsh-nvm.git ${ZSH_PLUGINS}/zsh-nvm
 
 # dotfiles
 ln -sf ${DOTFILES_ROOT}/zshrc ~/.zshrc
