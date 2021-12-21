@@ -31,7 +31,7 @@ ZSH_THEME="powerlevel9k/powerlevel9k"
 # DISABLE_LS_COLORS="true"
 
 # Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true”
+# DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
 # ENABLE_CORRECTION="true"
@@ -99,13 +99,19 @@ POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs time)
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-[ -f "$HOME/.bash_aliases" ] && source $HOME/.bash_aliases
+[ -f "$HOME/.aliases" ] && source $HOME/.aliases
 [ -f "$HOME/.macos_aliases" ] && source $HOME/.macos_aliases
 
+[[ -f /opt/dev/sh/chruby/chruby.sh ]] && type chruby >/dev/null 2>&1 || chruby () { source /opt/dev/sh/chruby/chruby.sh; chruby "$@"; }
+
+[[ -x /opt/homebrew/bin/brew ]] && eval $(/opt/homebrew/bin/brew shellenv)
+
+[ -f /opt/dev/dev.sh ] && source /opt/dev/dev.sh
+
 # php-version manager
-type brew >/dev/null 2>&1 && source $(brew --prefix php-version)/php-version.sh
+type brew --prefix php-version >/dev/null 2>&1 && [ -f "$(brew --prefix php-version)/php-version.sh" ] && source $(brew --prefix php-version)/php-version.sh
 
 # rbenv
-eval "$(rbenv init -)"
+type foobar &> /dev/null && eval "$(rbenv init -)"
 
 export GPG_TTY=$(tty)

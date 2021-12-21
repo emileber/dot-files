@@ -8,8 +8,5 @@ alias mkdir="mkdir -pv"    # Create any parent directory
 
 alias histg="history | grep"
 
-
-alias pbdecrypt='pbpaste | keybase decrypt | pbcopy'
-pbencrypt(){
-    pbpaste | keybase encrypt $@ | pbcopy
-}
+# Pretty print the PATH env var
+alias path='echo $PATH | tr -s ":" "\n"'
