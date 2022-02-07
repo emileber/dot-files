@@ -44,6 +44,7 @@
   # Get the current branch name (not so useful in itself, but used in
   # other aliases)
   branch-name = rev-parse --abbrev-ref HEAD
+  remote-branch-name = rev-parse --abbrev-ref --symbolic-full-name @{u}
   # list aliases
   la = !git config -l | grep alias | cut -c 7-
   # Find common ancertor with another branch, the fork point.
@@ -77,6 +78,11 @@
   pristine = !git reset --hard && git clean -dfx # dangerous, like a new clone, nothing untracked is kept.
   # Save all work into a commit "FIRE"
   fire = "!git add -A && git commit -m 'FIRE FIRE FIRE' && git push origin fire-branch"
+
+  # Only pull the current branches. Useful with huge teams working on the same repo.
+  sync = "!git pull origin $(git branch-name) && git remote prune origin && git gc --auto && git kill"
+  # Removes all other remote refs. When all you care about is the current branch.
+  focus = !git branch -r | grep -vw "$(git remote-branch-name)" | xargs git branch -d -r
 
   # assume-unchanged shortcuts
   hidden = !git ls-files -v | grep "^[[:lower:]]"
