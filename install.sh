@@ -22,10 +22,48 @@ ZSH_PLUGINS=${ZSH_CUSTOM}/plugins
 [ ! -d "$ZSH_PLUGINS/zsh-syntax-highlighting" ] && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_PLUGINS}/zsh-syntax-highlighting
 [ ! -d "$ZSH_PLUGINS/zsh-nvm" ] && git clone https://github.com/lukechilds/zsh-nvm.git ${ZSH_PLUGINS}/zsh-nvm
 
-# dotfiles
-ln -sf ${DOTFILES_ROOT}/zshrc ~/.zshrc
-ln -sf ${DOTFILES_ROOT}/gitconfig ~/.gitconfig
+# Files where tools may append to ~/<file> (e.g. `gt completion >> ~/.zshrc`,
+# `git config --global …`, pnpm/nvm/conda installers). Install as a real file
+# that sources/includes the tracked one, so tool-injected lines stay local
+# in ~/.zshrc.local / ~/.gitconfig.local and never get committed.
+install_zshrc_stub() {
+  if [ -L ~/.zshrc ] || [ ! -f ~/.zshrc ]; then
+    rm -f ~/.zshrc
+    cat > ~/.zshrc <<EOF
+# Tracked dotfiles
+[ -f "${DOTFILES_ROOT}/zshrc" ] && source "${DOTFILES_ROOT}/zshrc"
+
+# Local additions live below — never committed.
+# Tools that append to ~/.zshrc (gt completion, nvm, pnpm, tec, etc.) land here.
+[ -f "\$HOME/.zshrc.local" ] && source "\$HOME/.zshrc.local"
+EOF
+    echo "Created ~/.zshrc stub"
+  else
+    echo "Skipped ~/.zshrc (already a real file; not overwriting)"
+  fi
+}
+
+install_gitconfig_stub() {
+  if [ -L ~/.gitconfig ] || [ ! -f ~/.gitconfig ]; then
+    rm -f ~/.gitconfig
+    cat > ~/.gitconfig <<EOF
+[include]
+	path = ${DOTFILES_ROOT}/gitconfig
+	path = ~/.gitconfig.local
+EOF
+    echo "Created ~/.gitconfig stub"
+  else
+    echo "Skipped ~/.gitconfig (already a real file; not overwriting)"
+  fi
+}
+
+install_zshrc_stub
+install_gitconfig_stub
+
+# Global gitignore — git reads this via `core.excludesfile = ~/.gitignore`.
 ln -sf ${DOTFILES_ROOT}/gitignore ~/.gitignore
-ln -sf ${DOTFILES_ROOT}/aliases ~/.aliases
+
+# Note: aliases and macos_aliases are sourced directly from the repo by zshrc,
+# so they don't need symlinks in $HOME.
 
 echo -e "Dotfiles installed succesfully!"

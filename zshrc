@@ -56,7 +56,7 @@ ZSH_THEME="powerlevel9k/powerlevel9k"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git git-flow bower zsh-syntax-highlighting composer laravel5 zsh-nvm)
+plugins=(git git-flow zsh-syntax-highlighting zsh-nvm)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -99,17 +99,18 @@ POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs time)
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-[ -f "$HOME/.aliases" ] && source $HOME/.aliases
-[ -f "$HOME/.macos_aliases" ] && source $HOME/.macos_aliases
+# Source companion files directly from the repo (no $HOME symlinks needed).
+# `${0:A:h}` resolves to the directory of this file with all symlinks resolved.
+DOTFILES_DIR="${0:A:h}"
+[ -f "$DOTFILES_DIR/aliases" ] && source "$DOTFILES_DIR/aliases"
+[ -f "$DOTFILES_DIR/macos_aliases" ] && source "$DOTFILES_DIR/macos_aliases"
+unset DOTFILES_DIR
 
-[[ -f /opt/dev/sh/chruby/chruby.sh ]] && type chruby >/dev/null 2>&1 || chruby () { source /opt/dev/sh/chruby/chruby.sh; chruby "$@"; }
 
 [[ -x /opt/homebrew/bin/brew ]] && eval $(/opt/homebrew/bin/brew shellenv)
 
-[ -f /opt/dev/dev.sh ] && source /opt/dev/dev.sh
-
 # php-version manager
-type brew --prefix php-version >/dev/null 2>&1 && [ -f "$(brew --prefix php-version)/php-version.sh" ] && source $(brew --prefix php-version)/php-version.sh
+# type brew --prefix php-version >/dev/null 2>&1 && [ -f "$(brew --prefix php-version)/php-version.sh" ] && source $(brew --prefix php-version)/php-version.sh
 
 # rbenv
 type foobar &> /dev/null && eval "$(rbenv init -)"

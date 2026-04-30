@@ -38,3 +38,14 @@ selenium-debug.log*
 
 # Other generated artefacts
 .sass-cache
+
+# Keys / credentials — never commit
+id_rsa*
+id_ed25519*
+id_ecdsa*
+id_dsa*
+*.pem
+*.key
+*.p12
+*.pfx
+.netrc

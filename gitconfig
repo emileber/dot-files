@@ -45,13 +45,6 @@
   # Find common ancertor with another branch, the fork point.
   fp = "!f() { git log -1 $(git merge-base --fork-point $1); }; f"
 
-  #################
-  # flow commands #
-  #################
-
-  feat = flow feature start
-  hotfix = flow hotfix start
-
   ######################
   # Dangerous commands #
   ######################
@@ -63,6 +56,7 @@
   ff = "!f() { git fetch origin $1:$1; }; f" # same as e.g. 'git bring develop:develop'
   cam = commit -am
   cm = commit -m
+  feat = "!f() { if [ -z \"$1\" ]; then echo 'Error: Feature name is required.' >&2; exit 1; fi; git checkout -b emileber/$1; }; f"
   amend = commit --amend --no-edit
   pub = !git push -u origin $(git branch-name)
   unpub = !git push origin :$(git branch-name)
@@ -74,6 +68,17 @@
   pristine = !git reset --hard && git clean -dfx # dangerous, like a new clone, nothing untracked is kept.
   # Save all work into a commit "FIRE"
   fire = "!git add -A && git commit -m 'FIRE FIRE FIRE' && git push origin fire-branch"
+
+  #####################
+  # Worktree helpers  #
+  #####################
+
+  # Run an arbitrary command in each worktree of the current repo that has a
+  # branch checked out. Skips detached-HEAD worktrees. Continues on failure.
+  # Example: `git wt-each gt restack`, `git wt-each git status -sb`.
+  wt-each = "!f() { git worktree list --porcelain | awk '/^worktree / {wt=$2} /^branch refs\\/heads\\// {print wt}' | while read -r wt; do printf '\\n=== %s ===\\n' \"$wt\"; ( cd \"$wt\" && \"$@\" ) || echo \"  (exit $?)\"; done; }; f"
+  # Restack every worktree's branch (the parts `gt sync` from trunk skips).
+  gt-restack-all = !git wt-each gt restack
 
   # Only pull the current branches. Useful with huge teams working on the same repo.
   sync = "!git pull origin $(git branch-name) && git remote prune origin && git gc --auto && git kill"
@@ -87,8 +92,5 @@
   unhideall = "!git hidden | awk {'print $2'} | xargs git unhide"
   hideall = "!git status -s | awk {'print $2'} | xargs git hide"
 
-[include]
-  path = ~/.gitconfig.local
-	path = /Users/ebergeron/.config/dev/gitconfig
 [commit]
 	gpgSign = true
