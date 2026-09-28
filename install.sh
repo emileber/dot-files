@@ -16,11 +16,16 @@ echo -e "ZSH_CUSTOM path: $ZSH_CUSTOM"
 ZSH_THEMES=${ZSH_CUSTOM}/themes
 ZSH_PLUGINS=${ZSH_CUSTOM}/plugins
 
-[ ! -d "$ZSH_THEMES/powerlevel9k" ] && git clone https://github.com/Powerlevel9k/powerlevel9k.git ${ZSH_THEMES}/powerlevel9k
+[ ! -d "$ZSH_THEMES/powerlevel10k" ] && git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_THEMES}/powerlevel10k
 
 # installs zsh-syntax-highlighting plugin to a common directory
 [ ! -d "$ZSH_PLUGINS/zsh-syntax-highlighting" ] && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_PLUGINS}/zsh-syntax-highlighting
-[ ! -d "$ZSH_PLUGINS/zsh-nvm" ] && git clone https://github.com/lukechilds/zsh-nvm.git ${ZSH_PLUGINS}/zsh-nvm
+
+# nvm itself (lazy-loaded by zshrc), pinned to its latest release tag.
+if [ ! -d "$HOME/.nvm" ]; then
+  git clone https://github.com/nvm-sh/nvm.git "$HOME/.nvm"
+  git -C "$HOME/.nvm" checkout -q "$(git -C "$HOME/.nvm" describe --abbrev=0 --tags)"
+fi
 
 # Files where tools may append to ~/<file> (e.g. `gt completion >> ~/.zshrc`,
 # `git config --global …`, pnpm/nvm/conda installers). Install as a real file
