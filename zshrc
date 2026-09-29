@@ -17,7 +17,7 @@ POWERLEVEL9K_INSTANT_PROMPT=quiet
 POWERLEVEL9K_PROMPT_ON_NEWLINE=true
 POWERLEVEL9K_SHORTEN_DIR_LENGTH=3
 POWERLEVEL9K_SHORTEN_STRATEGY="truncate_middle"
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon context dir rbenv vcs)
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon context dir rbenv vcs git_reftable)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs time)
 
 # Path to your oh-my-zsh installation.
@@ -179,6 +179,40 @@ __nvm_auto_use_first() {
 autoload -Uz add-zsh-hook
 add-zsh-hook chpwd __nvm_auto_use
 add-zsh-hook precmd __nvm_auto_use_first
+
+# p10k's gitstatusd (libgit2) can't read repos that use git's reftable ref
+# storage, so the vcs segment disappears there. This segment shows the branch
+# using the git CLI, and only runs git inside reftable repos. It shows no dirty
+# state: reftable repos tend to be huge monorepos where `git status` takes
+# seconds, so the neutral color does not claim the tree is clean.
+typeset -gA __git_reftable_cache
+__git_reftable_repo() {
+  local dir=$PWD gitdir common
+  while [[ -n $dir && ! -e $dir/.git ]]; do dir=${dir%/*}; done
+  [[ -n $dir ]] || return 1
+  if [[ -z ${__git_reftable_cache[$dir]} ]]; then
+    if [[ -f $dir/.git ]]; then
+      gitdir=${"$(<$dir/.git)"#gitdir: }
+      [[ $gitdir == /* ]] || gitdir=$dir/$gitdir
+    else
+      gitdir=$dir/.git
+    fi
+    common=$gitdir
+    if [[ -f $gitdir/commondir ]]; then
+      common=$(<$gitdir/commondir)
+      [[ $common == /* ]] || common=$gitdir/$common
+    fi
+    [[ -d $common/reftable ]] && __git_reftable_cache[$dir]=1 || __git_reftable_cache[$dir]=0
+  fi
+  (( __git_reftable_cache[$dir] ))
+}
+prompt_git_reftable() {
+  __git_reftable_repo || return
+  local ref
+  ref=$(git symbolic-ref --short -q HEAD 2>/dev/null) ||
+    ref="@$(git rev-parse --short HEAD 2>/dev/null)"
+  p10k segment -b 244 -f black -r -i VCS_BRANCH_ICON -t "${ref//\%/%%}"
+}
 
 # Optional full Powerlevel10k config from `p10k configure`.
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
